@@ -11,8 +11,38 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { verifyKey } from "discord-interactions";
+import { INVITE_COMMAND } from "./commands";
+
+import { InteractionResponseType, InteractionType } from "discord-interactions";
+
+class JSONResponse extends Response {
+	constructor(body, init = { headers: { "content-type": "application/json;charset=utf-8" }}) {
+		const JSONBody = JSON.stringify(body);
+
+		super(JSONBody, init);
+	}
+}
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		const signature = request.headers.get("x-signature-ed25519") as string;
+		const timestamp = request.headers.get("x-signature-timestamp") as string;
+		const body = await request.clone().arrayBuffer();
+
+		const isValidRequest = verifyKey(body, signature, timestamp, process.env.DISCORD_PUBLIC_KEY as string);
+		if (!isValidRequest) return new Response("The request signature is not valid", { status: 401 });
+
+		const message = (await request.json());
+
+		if (message.type === InteractionType.PING) return new JSONResponse({ type: InteractionResponseType.PONG });
+
+		if (message.type !== InteractionType.APPLICATION_COMMAND) {
+			switch (message.data.name.toLowerCase()) {
+				case INVITE_COMMAND.name.toLowerCase():
+					return new JSONResponse({ type: 4, data: { content: "Invite link!" }});
+			}
+		}
+		return new Response("Not found!");
 	},
 } satisfies ExportedHandler<Env>;

@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      discord-interactions:
+        specifier: ^4.1.1
+        version: 4.1.1
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.7.5
@@ -915,6 +919,10 @@ packages:
 
   devalue@4.3.3:
     resolution: {integrity: sha512-UH8EL6H2ifcY8TbD2QsxwCC/pr5xSwPvv85LrLXVihmHVC3T3YqTCIwnR5ak0yO1KYqlxrPVOA/JVZJYPy2ATg==}
+
+  discord-interactions@4.1.1:
+    resolution: {integrity: sha512-dCrdJFSHQrEHXB8tk+LpIhAL7/+/UXCFDzooYmB6jj7b/zuhdbETpcZXLYQpSfcSRpF5wjmnu1XwuHlvdF1KpQ==}
+    engines: {node: '>=18.4.0'}
 
   es-module-lexer@1.6.0:
     resolution: {integrity: sha512-qqnD1yMU6tk/jnaMosogGySTZP8YtUgAffA9nMN+E/rjxcfRQ6IEk7IiozUjgxKoFHBGjTLnrHB/YC45r/59EQ==}
@@ -1826,6 +1834,8 @@ snapshots:
     optional: true
 
   devalue@4.3.3: {}
+
+  discord-interactions@4.1.1: {}
 
   es-module-lexer@1.6.0: {}
 
