@@ -30,7 +30,7 @@ export default {
 		const timestamp = request.headers.get("x-signature-timestamp") as string;
 		const body = await request.clone().arrayBuffer();
 
-		const isValidRequest = verifyKey(body, signature, timestamp, process.env.DISCORD_PUBLIC_KEY as string);
+		const isValidRequest = verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY as string);
 		if (!isValidRequest) return new Response("The request signature is not valid", { status: 401 });
 
 		const message = (await request.json());
