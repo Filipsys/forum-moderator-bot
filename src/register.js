@@ -1,4 +1,10 @@
-import { INVITE_COMMAND } from "./commands.js";
+// import { INVITE_COMMAND } from "./commands.js";
+import fetch from "node-fetch";
+
+const INVITE_COMMAND = {
+  name: "invite",
+  description: "Get an invite link to add the bot to your server",
+};
 
 /**
  * This file is meant to be run from the command line, and is not used by the
@@ -19,17 +25,9 @@ if (!applicationId) {
   );
 }
 
-/**
- * Register all commands globally.  This can take o(minutes), so wait until
- * you"re sure these are the commands you want.
- */
-async function registerGlobalCommands() {
+async function registerCommands() {
   const url = `https://discord.com/api/v10/applications/${applicationId}/commands`;
-  
-  await registerCommands(url);
-}
 
-async function registerCommands(url: string) {
   const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -50,4 +48,4 @@ async function registerCommands(url: string) {
   return response;
 }
 
-await registerGlobalCommands();
+await registerCommands();
